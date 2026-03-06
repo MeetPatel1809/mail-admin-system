@@ -65,7 +65,7 @@ app.post("/generate-mailboxes", async (req, res) => {
                     [email, hashedPassword, domain, expiryDate]
                 );
 
-                // mailbox path
+                // mailbox paths
                 const basePath = `/var/mail/vhosts/${domain}/${username}/Maildir`;
 
                 await fs.ensureDir(`${basePath}/cur`);
