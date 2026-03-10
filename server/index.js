@@ -37,8 +37,15 @@ app.post("/generate-mailboxes", async (req, res) => {
 
         // get names
         const [names] = await db.query(
-            "SELECT name FROM names LIMIT ?",
-            [parseInt(count)]
+            `SELECT name
+ FROM names
+ WHERE name NOT IN (
+     SELECT SUBSTRING_INDEX(email,'@',1)
+     FROM mailboxes
+     WHERE domain = ?
+ )
+ LIMIT ?`,
+            [domain, parseInt(count)]
         );
 
         if (!names.length) {
